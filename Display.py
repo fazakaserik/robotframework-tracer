@@ -1,6 +1,6 @@
 import threading
 import tkinter as tk
-from DisplayService import start_display_service
+from DisplayServiceManager import DisplayServiceManager
 
 class Display:
 
@@ -24,10 +24,10 @@ class Display:
         self._keyword_label.bind('<Enter>', self.move_label_to_right)
         
         # Init gRPC service
+        display_service_manager = DisplayServiceManager(self.update_display)
         self.display_service = threading.Thread(
-            target=start_display_service, 
+            target=display_service_manager.start_display_service, 
             daemon=True,
-            args=(self.update_display,)
             )
         
     def start(self):
