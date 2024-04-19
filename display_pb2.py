@@ -15,7 +15,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rdisplay.proto\x1a\x1bgoogle/protobuf/empty.proto\"\"\n\x12\x44isplayTextRequest\x12\x0c\n\x04text\x18\x01 \x01(\t2G\n\x07\x44isplay\x12<\n\x0b\x44isplayText\x12\x13.DisplayTextRequest\x1a\x16.google.protobuf.Empty\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rdisplay.proto\x1a\x1bgoogle/protobuf/empty.proto\"\"\n\x12\x44isplayTextRequest\x12\x0c\n\x04text\x18\x01 \x01(\t2N\n\x0e\x44isplayService\x12<\n\x0b\x44isplayText\x12\x13.DisplayTextRequest\x1a\x16.google.protobuf.Empty\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -24,6 +24,6 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
   _globals['_DISPLAYTEXTREQUEST']._serialized_start=46
   _globals['_DISPLAYTEXTREQUEST']._serialized_end=80
-  _globals['_DISPLAY']._serialized_start=82
-  _globals['_DISPLAY']._serialized_end=153
+  _globals['_DISPLAYSERVICE']._serialized_start=82
+  _globals['_DISPLAYSERVICE']._serialized_end=160
 # @@protoc_insertion_point(module_scope)

@@ -6,7 +6,7 @@ import display_pb2 as display__pb2
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
-class DisplayStub(object):
+class DisplayServiceStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -16,13 +16,13 @@ class DisplayStub(object):
             channel: A grpc.Channel.
         """
         self.DisplayText = channel.unary_unary(
-                '/Display/DisplayText',
+                '/DisplayService/DisplayText',
                 request_serializer=display__pb2.DisplayTextRequest.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
 
 
-class DisplayServicer(object):
+class DisplayServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def DisplayText(self, request, context):
@@ -32,7 +32,7 @@ class DisplayServicer(object):
         raise NotImplementedError('Method not implemented!')
 
 
-def add_DisplayServicer_to_server(servicer, server):
+def add_DisplayServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'DisplayText': grpc.unary_unary_rpc_method_handler(
                     servicer.DisplayText,
@@ -41,12 +41,12 @@ def add_DisplayServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'Display', rpc_method_handlers)
+            'DisplayService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class Display(object):
+class DisplayService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
@@ -60,7 +60,7 @@ class Display(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Display/DisplayText',
+        return grpc.experimental.unary_unary(request, target, '/DisplayService/DisplayText',
             display__pb2.DisplayTextRequest.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,

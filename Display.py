@@ -24,7 +24,11 @@ class Display:
         self._keyword_label.bind('<Enter>', self.move_label_to_right)
         
         # Init gRPC service
-        self.display_service = threading.Thread(target=start_display_service, daemon=True)
+        self.display_service = threading.Thread(
+            target=start_display_service, 
+            daemon=True,
+            args=(self.update_display,)
+            )
         
     def start(self):
         self.display_service.start()
@@ -34,7 +38,7 @@ class Display:
         self._keyword_label.pack_forget() 
         self._keyword_label.pack(side=tk.RIGHT, expand=True)
         
-    def _display(self, text: str):
+    def update_display(self, text: str):
         self._display_value.set(text)
         self._root.update()
         

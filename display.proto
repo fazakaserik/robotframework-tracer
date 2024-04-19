@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 
-service Display {
+service DisplayService {
     rpc DisplayText (DisplayTextRequest) returns (google.protobuf.Empty) {}
 }
 

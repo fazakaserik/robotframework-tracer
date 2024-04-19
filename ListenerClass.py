@@ -21,11 +21,15 @@ class ListenerClass:
         self._SEPARATOR: str = ' ' * self._NUM_SPACES
 
         self.process = None
-        self.ui_thread = threading.Thread(target=self.start_ui, daemon=True)
-        self.ui_thread.start()
         
-        self.channel = grpc.insecure_channel('localhost:50051')
-        self.stub = display_pb2_grpc.DisplayStub(self.channel)
+        try:
+            self.ui_thread = threading.Thread(target=self.start_ui, daemon=True)
+            self.ui_thread.start()
+            
+            self.channel = grpc.insecure_channel('localhost:50051')
+            self.stub = display_pb2_grpc.DisplayServiceStub(self.channel)
+        finally:
+            self.close()
     
     def start_ui(self):
         self.process = subprocess.Popen(["python", "Display.py"])
