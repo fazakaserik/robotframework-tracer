@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+service Display {
+    rpc DisplayText (DisplayTextRequest) returns (google.protobuf.Empty) {}
+}
+
+message DisplayTextRequest {
+    string text = 1;
+}

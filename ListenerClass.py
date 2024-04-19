@@ -1,14 +1,15 @@
 # Robot Framework
 from concurrent.futures import thread
+import grpc
 from robot.libraries.BuiltIn import BuiltIn
 from robot.running.model import *
 
 # Visual
-import tkinter as tk
 import threading
 import subprocess
 
-from TracerLabel import TracerLabel
+import display_pb2
+import display_pb2_grpc
 
 class ListenerClass:
 
@@ -22,12 +23,15 @@ class ListenerClass:
         self.process = None
         self.ui_thread = threading.Thread(target=self.start_ui, daemon=True)
         self.ui_thread.start()
+        
+        self.channel = grpc.insecure_channel('localhost:50051')
+        self.stub = display_pb2_grpc.DisplayStub(self.channel)
     
     def start_ui(self):
-        self.process = subprocess.Popen(["python", "TracerLabel.py"])
+        self.process = subprocess.Popen(["python", "Display.py"])
         
     def _display(self, text: str):
-        pass
+        self.stub.DisplayText(display_pb2.DisplayTextRequest(text=text))
 
     def start_keyword(self, data: Keyword, result):
         args_str: str = self._SEPARATOR.join(list(data.args))

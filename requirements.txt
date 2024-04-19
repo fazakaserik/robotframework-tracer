@@ -1,2 +1,6 @@
 robotframework>=7
 tk
+flask
+grpcio 
+grpcio-tools
+grpcio-reflection

@@ -1,10 +1,11 @@
-# Visual
-import tkinter as tk
 import threading
+import tkinter as tk
+from DisplayService import start_display_service
 
-class TracerLabel:
+class Display:
 
-    def __init__(self):
+    def __init__(self):     
+        # Init TKinter
         self._root = tk.Tk()
         self._root.title("Robot Framework Listener")
         self._root.overrideredirect(True) 
@@ -21,6 +22,12 @@ class TracerLabel:
             )
         self._keyword_label.pack(side=tk.LEFT, expand=True)
         self._keyword_label.bind('<Enter>', self.move_label_to_right)
+        
+        # Init gRPC service
+        self.display_service = threading.Thread(target=start_display_service, daemon=True)
+        
+    def start(self):
+        self.display_service.start()
         self._root.mainloop()
         
     def move_label_to_right(self, event):
@@ -33,4 +40,4 @@ class TracerLabel:
         
 
 if __name__ == "__main__":
-    TracerLabel()
+    Display().start()
