@@ -16,7 +16,9 @@ class DisplayServiceManager():
     def start_display_service(self):
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         display_pb2_grpc.add_DisplayServiceServicer_to_server(
-            DisplayService(self.update_display_callback), server)
+            DisplayService(
+                self.update_display_callback
+                ), server)
 
         # Add reflection
         SERVICE_NAMES = (
