@@ -2,7 +2,7 @@
   "name": "robot-framework-tracer",
   "displayName": "Robot Framework Tracer",
   "description": "",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.88.0"
   },
@@ -10,7 +10,7 @@
     "Other"
   ],
   "activationEvents": [
-    "*"
+    "workspaceContains:**/*.{robot,resource}"
   ],
   "main": "./out/extension.js",
   "contributes": {

@@ -1,5 +1,3 @@
 robotframework
 tk
 grpcio 
-grpcio-tools
-grpcio-reflection
