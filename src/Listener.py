@@ -12,7 +12,7 @@ import subprocess
 import display_pb2
 import display_pb2_grpc
 
-class ListenerClass:
+class Listener:
 
     ROBOT_LIBRARY_SCOPE = "GLOBAL"
     ROBOT_LISTENER_API_VERSION = 3

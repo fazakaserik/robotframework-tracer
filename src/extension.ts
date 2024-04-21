@@ -1,10 +1,9 @@
 import * as vscode from 'vscode';
-
-const LISTENER_FLAG = "--listener";
-const LISTENER_VALUE = "ListenerClass.py";
+import * as path from 'path';
 
 const ROBOT_EXTENSION = "robotcode";
 const ROBOT_EXTENSION_SETTING = 'robot.args';
+const LISTENER_FLAG = "--listener";
 
 function setListener(context: vscode.ExtensionContext, config: vscode.WorkspaceConfiguration, listener: string): void {
 	let updateArgs = config.get<string[]>(ROBOT_EXTENSION_SETTING) || [];
@@ -24,18 +23,18 @@ function setListener(context: vscode.ExtensionContext, config: vscode.WorkspaceC
         });
 }
 
-function updateListener(context: vscode.ExtensionContext): void {
+function updateListener(context: vscode.ExtensionContext, listener: string): void {
 	const robot_extension_config = vscode.workspace.getConfiguration(ROBOT_EXTENSION);
 
 	const args = robot_extension_config.get<string[]>(ROBOT_EXTENSION_SETTING);
     const hasListener = args?.some(arg => arg.startsWith(`${LISTENER_FLAG}=`)) || false;
 
     if (!hasListener) {
-        setListener(context, robot_extension_config, LISTENER_VALUE);
+        setListener(context, robot_extension_config, listener);
         return;
     }
 
-    const listenerAlreadySet = args?.some(arg => arg === `${LISTENER_FLAG}=${LISTENER_VALUE}`) || false;
+    const listenerAlreadySet = args?.some(arg => arg === `${LISTENER_FLAG}=${listener}`) || false;
 
     if (listenerAlreadySet) {
         return;
@@ -47,7 +46,7 @@ function updateListener(context: vscode.ExtensionContext): void {
         'No'
     ).then(choice => {
         if (choice === "Yes") {
-            setListener(context, robot_extension_config, LISTENER_VALUE);
+            setListener(context, robot_extension_config, listener);
         } else {
             vscode.window.showErrorMessage(`${context.extension.packageJSON.displayName} listener was not set, thus it won't be active.`);
         }
@@ -55,12 +54,14 @@ function updateListener(context: vscode.ExtensionContext): void {
 }
 
 export function activate(context: vscode.ExtensionContext) {
+	const listenerFile = path.join(context.extensionPath, 'src', 'Listener.py');
+
     // When the extension loads, check if the listener is set
-	updateListener(context);
+	updateListener(context, listenerFile);
 
 	// Otherwise provide a command to set it
 	let disposable = vscode.commands.registerCommand('robot-framework-tracer.updateListener', () => {
-        updateListener(context);
+        updateListener(context, listenerFile);
     });
 
     context.subscriptions.push(disposable);
