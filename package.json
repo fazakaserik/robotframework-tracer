@@ -1,5 +1,9 @@
 {
   "name": "robot-framework-tracer",
+  "publisher": "erik-fazakas",
+  "author": {
+    "name": "Erik Fazakas"
+  },
   "displayName": "Robot Framework Tracer",
   "description": "",
   "version": "0.1.0",
@@ -7,7 +11,8 @@
     "vscode": "^1.88.0"
   },
   "categories": [
-    "Other"
+    "Testing",
+    "Helpers"
   ],
   "activationEvents": [
     "workspaceContains:**/*.{robot,resource}"
@@ -18,6 +23,43 @@
       {
         "command": "robot-framework-tracer.updateListener",
         "title": "Robot Framework Tracer: Update robot listener"
+      }
+    ],
+    "configuration": [
+      {
+        "title": "Display",
+        "type": "object",
+        "properties": {
+          "robotframeworkTracer.display.primaryLocation": {
+            "default": "Top Left",
+            "description": "Primary location of where the display should appear.",
+            "enum": [
+              "Top Left",
+              "Top Middle",
+              "Top Right",
+              "Bottom Left",
+              "Bottom Middle",
+              "Bottom Right"
+            ]
+          },
+          "robotframeworkTracer.display.secondaryLocation": {
+            "default": "Bottom Left",
+            "description": "Secondary location of where the display should appear, when the display is hovered at the primary location.",
+            "enum": [
+              "Top Left",
+              "Top Middle",
+              "Top Right",
+              "Bottom Left",
+              "Bottom Middle",
+              "Bottom Right"
+            ]
+          },
+          "robotframeworkTracer.display.traceMouseMovement": {
+            "default": true,
+            "description": "Determines whether the mouse movement should be traced.",
+            "type": "boolean"
+          }
+        }
       }
     ]
   },
@@ -30,17 +72,21 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.88.0",
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
+    "@types/vscode": "^1.88.0",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
-    "eslint": "^8.57.0",
-    "typescript": "^5.3.3",
     "@vscode/test-cli": "^0.0.8",
-    "@vscode/test-electron": "^2.3.9"
+    "@vscode/test-electron": "^2.3.9",
+    "esbuild": "^0.20.2",
+    "eslint": "^8.57.0",
+    "typescript": "^5.3.3"
   },
   "extensionDependencies": [
     "d-biehl.robotcode"
-  ]
+  ],
+  "dependencies": {
+    "@vscode/python-extension": "^1.0.5"
+  }
 }

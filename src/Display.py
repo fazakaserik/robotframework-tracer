@@ -1,6 +1,7 @@
 import threading
 import tkinter as tk
 from DisplayServiceManager import DisplayServiceManager
+from ctypes import windll
 
 class Display:
 
@@ -8,10 +9,12 @@ class Display:
         # Initialize Tkinter
         self._root = tk.Tk()
         self._root.title("Robot Framework Listener")
-        self._root.overrideredirect(True)
-        self._root.geometry("+0+0")
+        # self._root.overrideredirect(True)
+        # self._root.geometry("+0+0")
+        self._root.attributes('-alpha', 1)
         self._root.attributes('-topmost', True)
-
+        self._root.attributes('-fullscreen', True)
+        
         self._display_value = tk.StringVar(value="Waiting for Robot Framework execution...")
         self._keyword_label = tk.Label(
             master=self._root,
@@ -21,16 +24,47 @@ class Display:
         self._keyword_label.pack(side=tk.LEFT, expand=True)
         self._keyword_label.bind('<Enter>', self.on_mouse_enter)
         
+         # Create a canvas for drawing lines
+        self._canvas = tk.Canvas(self._root, bg='white', highlightthickness=0)
+        self._canvas.pack(fill=tk.BOTH, expand=True)
+        
+        # Settings for line drawing
+        self._line_color = "red"
+        self._line_lifetime = 5000
+        self._previous_x, self._previous_y = None, None
+        
+        # Binding mouse movement
+        self._root.bind('<Motion>', self.draw_line)
+        
         # Initialize gRPC service
         display_service_manager = DisplayServiceManager(self.update_display)
         self.display_service = threading.Thread(
             target=display_service_manager.start_display_service,
             daemon=True,
         )
+        
+        # Wait to configure the window for click-through until it's fully loaded
+        self._root.after(10, lambda: self.make_click_through(self._root.winfo_id()))
 
     def start(self):
         self.display_service.start()
         self._root.mainloop()
+        
+    def make_click_through(self, hwnd):
+        hwnd = windll.user32.GetParent(self._root.winfo_id())
+        style = windll.user32.GetWindowLongPtrW(hwnd, -20)
+        style |= 0x80000 | 0x20
+        windll.user32.SetWindowLongPtrW(hwnd, -20, style)
+        
+    def draw_line(self, event):
+        x, y = event.x, event.y
+        if self._previous_x is not None and self._previous_y is not None:
+            # Draw a line from the previous point to the current point
+            line = self._canvas.create_line(self._previous_x, self._previous_y, x, y, fill=self._line_color)
+            # Schedule the line to disappear
+            self._canvas.after(self._line_lifetime, self._canvas.delete, line)
+        # Update the current point
+        self._previous_x, self._previous_y = x, y
 
     def update_display(self, text: str):
         self._root.after(0, self._display, text)
