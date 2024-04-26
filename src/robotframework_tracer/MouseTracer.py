@@ -5,6 +5,8 @@ from ctypes import POINTER, byref, wintypes
 from threading import Thread
 from typing import Literal, Tuple, Union
 
+from Colors import CycleColors
+
 
 # Define necessary structures from the WinAPI
 class POINT(ctypes.Structure):
@@ -31,9 +33,10 @@ class MouseTracer:
         height: Union[float, Literal["fill"]] = "fill",
     ) -> None:
         self.canvas = canvas
-        self._mouse_locations = deque(maxlen=10)  # Adjust maxlen as needed
-
+        self.arrow_ids: deque = deque(maxlen=3)  # Adjust maxlen as needed
+        self.prev_mouse_click = (0, 0)
         self.canvas.pack()
+        self.cycle_colors = CycleColors()
 
         # Calculate rectangle coordinates
         x0, y0 = location
@@ -42,7 +45,6 @@ class MouseTracer:
 
         self.canvas.create_rectangle(x0, y0, x1, y1, fill=fill)
 
-        # Bind mouse click events
         # Load user32 and set up hook
         self.user32 = ctypes.WinDLL("user32", use_last_error=True)
         self.LowLevelMouseProc = ctypes.WINFUNCTYPE(
@@ -74,6 +76,26 @@ class MouseTracer:
                 mouse_struct = ctypes.cast(
                     lParam, POINTER(MSLLHOOKSTRUCT)
                 ).contents
+
+                print(self.arrow_ids)
+                if len(self.arrow_ids) == self.arrow_ids.maxlen:
+                    self.canvas.delete(self.arrow_ids.popleft())
+                x, y = self.prev_mouse_click
+                line_id = self.canvas.create_line(
+                    x,
+                    y,
+                    mouse_struct.pt.x,
+                    mouse_struct.pt.y,
+                    arrow=tk.LAST,
+                    width=8,
+                    arrowshape=(32, 40, 12),
+                    fill=self.cycle_colors.get_next_color(),
+                )
+                self.arrow_ids.append(line_id)
+                self.prev_mouse_click = (mouse_struct.pt.x, mouse_struct.pt.y)
+
+                self.mouse_clicks.append((mouse_struct.pt.x, mouse_struct.pt.y))
+
                 print(
                     f"Left button pressed at {mouse_struct.pt.x};{mouse_struct.pt.y}"
                 )
