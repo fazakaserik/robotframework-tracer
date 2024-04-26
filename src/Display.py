@@ -1,5 +1,6 @@
 import threading
 import tkinter as tk
+from turtle import width
 from DisplayServiceManager import DisplayServiceManager
 from ctypes import windll
 
@@ -14,6 +15,10 @@ class Display:
         self._root.attributes('-alpha', 1)
         self._root.attributes('-topmost', True)
         self._root.attributes('-fullscreen', True)
+        self._root.wm_attributes('-transparentcolor', '#60b26c')
+        
+        self._screen_width = self._root.winfo_screenwidth()
+        self._screen_height = self._root.winfo_screenheight()
         
         self._display_value = tk.StringVar(value="Waiting for Robot Framework execution...")
         self._keyword_label = tk.Label(
@@ -21,11 +26,12 @@ class Display:
             textvariable=self._display_value,
             font=("Helvetica", 24)
         )
-        self._keyword_label.pack(side=tk.LEFT, expand=True)
+        self._keyword_label.pack(side=tk.LEFT, expand=False)
         self._keyword_label.bind('<Enter>', self.on_mouse_enter)
         
          # Create a canvas for drawing lines
-        self._canvas = tk.Canvas(self._root, bg='white', highlightthickness=0)
+        self._canvas = tk.Canvas(self._root)
+        self._canvas.create_rectangle(0, 0, self._screen_width, self._screen_height, fill="#60b26c")
         self._canvas.pack(fill=tk.BOTH, expand=True)
         
         # Settings for line drawing
