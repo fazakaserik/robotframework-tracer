@@ -1,3 +1,3 @@
-# robot-framework-tracer README
+# Robot Framework Tracer
 
-Still testing...
+![](docs/gif/demo.gif)
