@@ -77,7 +77,9 @@ class MouseTracer:
                     lParam, POINTER(MSLLHOOKSTRUCT)
                 ).contents
 
-                print(self.arrow_ids)
+                # TODO: correct this offset
+                mouse_struct.pt.y = mouse_struct.pt.y - 40
+
                 if len(self.arrow_ids) == self.arrow_ids.maxlen:
                     self.canvas.delete(self.arrow_ids.popleft())
                 x, y = self.prev_mouse_click
@@ -93,17 +95,8 @@ class MouseTracer:
                 )
                 self.arrow_ids.append(line_id)
                 self.prev_mouse_click = (mouse_struct.pt.x, mouse_struct.pt.y)
-
-                self.mouse_clicks.append((mouse_struct.pt.x, mouse_struct.pt.y))
-
-                print(
-                    f"Left button pressed at {mouse_struct.pt.x};{mouse_struct.pt.y}"
-                )
             elif wParam == 514:  # WM_LBUTTONUP
                 mouse_struct = ctypes.cast(
                     lParam, POINTER(MSLLHOOKSTRUCT)
                 ).contents
-                print(
-                    f"Left button released at {mouse_struct.pt.x};{mouse_struct.pt.y}"
-                )
         return self.user32.CallNextHookEx(None, nCode, wParam, lParam)

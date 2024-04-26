@@ -83,10 +83,6 @@ async function checkPythonPackages(
         "Required Python packages were not installed."
       );
     }
-  } else {
-    vscode.window.showInformationMessage(
-      "All required Python packages are installed."
-    );
   }
 }
 
