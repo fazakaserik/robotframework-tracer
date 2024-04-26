@@ -15,6 +15,13 @@
 				"kind": "build",
 				"isDefault": true
 			}
+		},
+		{
+			"label": "Build Python package",
+			"detail": "Build Python wheel package in dist directory",
+			"type": "shell",
+			"problemMatcher": [],
+			"command": "python -m build"
 		}
 	]
 }

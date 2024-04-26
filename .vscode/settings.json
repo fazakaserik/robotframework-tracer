@@ -9,7 +9,7 @@
     // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
     "typescript.tsc.autoDetect": "off",
     "robotcode.robot.args": [
-        "--listener=c:\\Users\\thefa\\Documents\\Git\\robotframework_tracer\\robot-framework-tracer\\src\\Listener.py"
+        "--listener=c:\\Users\\thefa\\Documents\\Git\\robotframework_tracer\\robot-framework-tracer\\src\\robotframework_tracer\\Listener.py"
     ],
     "[python]": {
         "editor.formatOnSave": true,
