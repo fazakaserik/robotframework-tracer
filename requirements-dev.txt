@@ -2,3 +2,4 @@
 
 grpcio-tools
 grpcio-reflection
+mypy

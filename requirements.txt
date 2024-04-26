@@ -1,3 +1,5 @@
 robotframework
 tk
 grpcio 
+pynput
+types-pynput
