@@ -19,5 +19,9 @@
         }
     },
     "isort.args": ["--profile", "black"],
-    "autoDocstring.docstringFormat": "numpy"
+    "autoDocstring.docstringFormat": "numpy",
+    "black-formatter.args": [
+        "--line-length",
+        "80"
+    ]
 }
