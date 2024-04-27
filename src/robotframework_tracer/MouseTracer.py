@@ -5,7 +5,7 @@ from ctypes import POINTER, byref, wintypes
 from threading import Thread
 from typing import Literal, Tuple, Union
 
-from style.Colors import CycleColors
+from robotframework_tracer.style.CycleColors import CycleColors
 
 
 # Define necessary structures from the WinAPI
@@ -91,8 +91,9 @@ class MouseTracer:
                     arrow=tk.LAST,
                     width=8,
                     arrowshape=(32, 40, 12),
-                    fill=self.cycle_colors.get_next_color(),
+                    fill=self.cycle_colors.get_color(),
                 )
+                self.cycle_colors.cycle()
                 self.arrow_ids.append(line_id)
                 self.prev_mouse_click = (mouse_struct.pt.x, mouse_struct.pt.y)
             elif wParam == 514:  # WM_LBUTTONUP

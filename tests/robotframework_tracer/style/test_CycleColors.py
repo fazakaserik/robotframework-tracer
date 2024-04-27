@@ -14,18 +14,20 @@ class TestCycleColors(unittest.TestCase):
 
         self.assertEqual(initial_color, next_color)
 
-    def test_get_next_color(self):
+    def test_cycle(self):
         initial_color = self.cycle_colors.get_color()
-        next_color = self.cycle_colors.get_next_color()
+        self.cycle_colors.cycle()
+        next_color = self.cycle_colors.get_color()
 
         self.assertNotEqual(initial_color, next_color)
 
     def test_color_cycling(self):
         # Make a whole cycle
         for color in self.colors:
-            self.assertEqual(self.cycle_colors.get_next_color(), color)
+            self.assertEqual(self.cycle_colors.get_color(), color)
+            self.cycle_colors.cycle()
         # It should return the first one again
-        self.assertEqual(self.cycle_colors.get_next_color(), self.colors[0])
+        self.assertEqual(self.cycle_colors.get_color(), self.colors[0])
 
 
 if __name__ == "__main__":

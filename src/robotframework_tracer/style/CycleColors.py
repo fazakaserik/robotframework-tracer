@@ -1,13 +1,12 @@
-from typing import List, Optional
+from collections import deque
+from typing import Iterable, List
 
 
 class CycleColors:
-    _colors: List[str]
-    _index: int
 
     def __init__(
         self,
-        colors: List[str] = [
+        colors: Iterable = [
             "red",
             "orange",
             "yellow",
@@ -17,16 +16,10 @@ class CycleColors:
             "violet",
         ],
     ) -> None:
-        self._colors = colors
-        self._index = 0
-        
-    # todo: color reset
+        self._colors = deque(colors)
 
     def get_color(self) -> str:
-        color = self._colors[self._index]
-        return color
+        return self._colors[0]
 
-    def get_next_color(self) -> str:
-        color = self._colors[self._index]
-        self.index = (self._index + 1) % len(self._colors)
-        return color
+    def cycle(self) -> None:
+        self._colors.append(self._colors.popleft())
