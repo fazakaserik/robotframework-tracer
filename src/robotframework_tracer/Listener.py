@@ -2,6 +2,7 @@
 # Visual
 import os
 import subprocess
+import sys
 import threading
 from concurrent.futures import thread
 
@@ -36,7 +37,7 @@ class Listener:
     def start_ui(self):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         self.process = subprocess.Popen(
-            ["python", os.path.join(dir_path, "Display.py")]
+            [sys.executable, os.path.join(dir_path, "Display.py")]
         )
 
     def _display(self, text: str):
