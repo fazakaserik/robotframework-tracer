@@ -3,9 +3,9 @@ import tkinter as tk
 from ctypes import windll
 from turtle import width
 
-from robotframework_tracer.style.Colors import Colors
-from DisplayServiceManager import DisplayServiceManager
-from MouseTracer import MouseTracer
+from robotframework_tracer.DisplayServiceManager import DisplayServiceManager
+from robotframework_tracer.MouseTracer import MouseTracer
+from robotframework_tracer.style.Tkinter import Colors
 
 
 class Display:
