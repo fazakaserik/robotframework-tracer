@@ -5,7 +5,7 @@ from ctypes import POINTER, byref, wintypes
 from threading import Thread
 from typing import Literal, Tuple, Union
 
-from Colors import CycleColors
+from style.Colors import CycleColors
 
 
 # Define necessary structures from the WinAPI

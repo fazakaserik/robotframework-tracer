@@ -3,7 +3,7 @@ import tkinter as tk
 from ctypes import windll
 from turtle import width
 
-from Colors import Colors
+from robotframework_tracer.style.Colors import Colors
 from DisplayServiceManager import DisplayServiceManager
 from MouseTracer import MouseTracer
 
