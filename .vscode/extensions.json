@@ -6,6 +6,7 @@
         "ms-vscode.extension-test-runner",
 		"tamasfe.even-better-toml",
 		"ms-python.black-formatter",
-		"zxh404.vscode-proto3"
+		"zxh404.vscode-proto3",
+		"mkloubert.vscode-kanban"
 	]
 }
