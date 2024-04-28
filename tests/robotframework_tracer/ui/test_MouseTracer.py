@@ -24,7 +24,7 @@ class TestMouseTracer(unittest.TestCase):
         self.mock_canvas.winfo_reqheight.return_value = self.REQ_HEIGHT
 
         self.mock_mouse = MagicMock(spec=Mouse)
-        self.mock_cycle_colors = MagicMock(spec=CycleColors)
+        self.mock_cycle_colors = MagicMock()
         self.mock_cycle_colors.get_color.return_value = self.ARG_FILL
 
         self.mouse_tracer = MouseTracer(
