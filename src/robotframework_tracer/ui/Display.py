@@ -1,16 +1,13 @@
 import threading
 import tkinter as tk
 from ctypes import windll
-from turtle import width
 
-from robotframework_tracer.DisplayServiceManager import DisplayServiceManager
-from robotframework_tracer.MouseTracer import MouseTracer
-from robotframework_tracer.style.Tkinter import Colors
+from robotframework_tracer.style.tkinter import TkinterStyle
+from robotframework_tracer.ui.DisplayServiceManager import DisplayServiceManager
+from robotframework_tracer.ui.MouseTracer import MouseTracer
 
 
 class Display:
-
-    TRANSPARENT_COLOR = "#60b26c"
 
     def __init__(self):
         # Initialize Tkinter
@@ -20,7 +17,9 @@ class Display:
         self._root.attributes("-topmost", True)
         # self._root.overrideredirect(True) # Do not show application on tray
         self._root.attributes("-fullscreen", True)
-        self._root.wm_attributes("-transparentcolor", Colors.TRANSPARENT_COLOR)
+        self._root.wm_attributes(
+            "-transparentcolor", TkinterStyle.Colors.TRANSPARENT_COLOR
+        )
 
         self._screen_width = self._root.winfo_screenwidth()
         self._screen_height = self._root.winfo_screenheight()
@@ -43,7 +42,7 @@ class Display:
             self._root, width=self._screen_width, height=self._screen_height
         )
         self._mouse_tracer = MouseTracer(
-            canvas=self._canvas, fill=Colors.TRANSPARENT_COLOR
+            canvas=self._canvas, fill=TkinterStyle.Colors.TRANSPARENT_COLOR
         )
         self._canvas.pack(fill=tk.BOTH, expand=True)
 
@@ -109,7 +108,7 @@ class Display:
             self._root.geometry("+0+0")
 
 
-# Gets called by listener
+# Gets called by Listener.py
 if __name__ == "__main__":
     display = Display()
     display.start()

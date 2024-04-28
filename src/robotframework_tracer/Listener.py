@@ -7,11 +7,12 @@ import threading
 from concurrent.futures import thread
 
 import grpc
-from robot.libraries.BuiltIn import BuiltIn
 from robot.running.model import Keyword
 
-from robotframework_tracer.display_pb2 import DisplayTextRequest
-from robotframework_tracer.display_pb2_grpc import DisplayServiceStub
+from robotframework_tracer.ui.generated.display_pb2 import DisplayTextRequest
+from robotframework_tracer.ui.generated.display_pb2_grpc import (
+    DisplayServiceStub,
+)
 
 
 class Listener:
@@ -37,7 +38,7 @@ class Listener:
     def start_ui(self):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         self.process = subprocess.Popen(
-            [sys.executable, os.path.join(dir_path, "Display.py")]
+            [sys.executable, os.path.join(dir_path, "ui", "Display.py")]
         )
 
     def _display(self, text: str):

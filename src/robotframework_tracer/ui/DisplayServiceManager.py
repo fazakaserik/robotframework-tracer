@@ -3,11 +3,11 @@ from concurrent import futures
 import grpc
 from grpc_reflection.v1alpha import reflection
 
-from robotframework_tracer.display_pb2 import DESCRIPTOR
-from robotframework_tracer.display_pb2_grpc import (
+from robotframework_tracer.ui.DisplayService import DisplayService
+from robotframework_tracer.ui.generated.display_pb2 import DESCRIPTOR
+from robotframework_tracer.ui.generated.display_pb2_grpc import (
     add_DisplayServiceServicer_to_server,
 )
-from robotframework_tracer.DisplayService import DisplayService
 
 
 class DisplayServiceManager:

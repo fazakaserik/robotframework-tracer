@@ -6,6 +6,7 @@ from threading import Thread
 from typing import Literal, Tuple, Union
 
 from robotframework_tracer.style.CycleColors import CycleColors
+from robotframework_tracer.style.tkinter import TkinterStyle
 from robotframework_tracer.win_api.mouse import Mouse
 
 
@@ -14,13 +15,13 @@ class MouseTracer:
         self,
         canvas: tk.Canvas,
         fill: str,
+        mouse: Mouse = Mouse(),
         location: Tuple[float, float] = (0.0, 0.0),
         width: Union[float, Literal["fill"]] = "fill",
         height: Union[float, Literal["fill"]] = "fill",
     ) -> None:
         self.canvas = canvas
-        self.mouse = Mouse()
-
+        self.mouse = mouse
         self.arrow_ids: deque = deque(maxlen=3)
         self.prev_mouse_click: Tuple[float, float] = (0.0, 0.0)
         self.canvas.pack()
@@ -46,8 +47,8 @@ class MouseTracer:
             x,
             y,
             arrow=tk.LAST,
-            width=8,
-            arrowshape=(32, 40, 12),
+            width=TkinterStyle.Arrow.WIDTH,
+            arrowshape=TkinterStyle.Arrow.ARROWSHAPE,
             fill=self.cycle_colors.get_color(),
         )
         self.cycle_colors.cycle()

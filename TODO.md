@@ -7,3 +7,4 @@
 - Make configuration to choose how big the arrow_id buffer should be
 - Refine click location, it is a bit under where i clicked
 - Make the arrow configurable (easy with tkinter params), also link tkinter arrow config docs
+- Create a proto compile script + fix import in *_grpc.py file (add from . for relative import)
