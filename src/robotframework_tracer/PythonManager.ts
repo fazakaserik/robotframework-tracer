@@ -7,6 +7,8 @@ import {
   ActiveEnvironmentPathChangeEvent,
 } from "@vscode/python-extension"; // https://github.com/d-biehl/robotcode/blob/main/vscode-client/pythonmanger.ts
 
+const PACKAGE_NAME = "robotframework-tracer";
+
 async function checkPythonPackages(
   context: vscode.ExtensionContext
 ): Promise<void> {
@@ -52,6 +54,17 @@ async function checkPythonPackages(
     .filter((line) => line.trim() !== "");
 
   let missingPackages: string[] = [];
+
+  // Until the package is not distributed, install it from source
+  try {
+    cp.execSync(
+      `${activePythonEnvironment.interpreterPath} -m pip show ${PACKAGE_NAME}`,
+      { encoding: "utf-8" }
+    );
+  } catch {
+    missingPackages.push(context.extensionPath);
+  }
+
   for (const requirement of requirements) {
     try {
       let requirementName = requirement.split("==")[0];

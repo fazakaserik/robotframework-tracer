@@ -4,16 +4,6 @@
       "assignedTo": {
         "name": "fazakaserik"
       },
-      "creation_time": "2024-04-28T12:44:51.394Z",
-      "id": "3",
-      "prio": 5,
-      "references": [],
-      "title": "Install robotframework_tracer as a package"
-    },
-    {
-      "assignedTo": {
-        "name": "fazakaserik"
-      },
       "creation_time": "2024-04-28T12:48:27.635Z",
       "description": {
         "content": "Create a proto compile script + fix import in *_grpc.py file (add from . for relative import)",
@@ -98,6 +88,16 @@
     }
   ],
   "in-progress": [
+    {
+      "assignedTo": {
+        "name": "fazakaserik"
+      },
+      "creation_time": "2024-04-28T12:44:51.394Z",
+      "id": "3",
+      "prio": 5,
+      "references": [],
+      "title": "Install robotframework-tracer as a package"
+    },
     {
       "assignedTo": {
         "name": "fazakaserik"

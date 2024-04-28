@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 dynamic = ["dependencies"]
-name = "robotframework_tracer"
+name = "robotframework-tracer"
 version = "0.0.1"
 authors = [{ name = "Example Author", email = "author@example.com" }]
 description = "A small example package"

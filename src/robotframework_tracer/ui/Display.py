@@ -15,8 +15,8 @@ class Display:
         self._root.title("Robot Framework Listener")
         self._root.attributes("-alpha", 1)
         self._root.attributes("-topmost", True)
-        # self._root.overrideredirect(True) # Do not show application on tray
-        self._root.attributes("-fullscreen", True)
+        self._root.overrideredirect(True)  # Do not show application on tray
+        # self._root.attributes("-fullscreen", True)
         self._root.wm_attributes(
             "-transparentcolor", TkinterStyle.Colors.TRANSPARENT_COLOR
         )
