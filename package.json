@@ -5,6 +5,7 @@
     "name": "Erik Fazakas"
   },
   "displayName": "Robot Framework Tracer",
+  "icon": "resource/icon.png",
   "description": "",
   "version": "0.1.0",
   "engines": {
