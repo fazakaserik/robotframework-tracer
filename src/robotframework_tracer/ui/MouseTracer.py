@@ -11,14 +11,18 @@ from robotframework_tracer.win_api.mouse import Mouse
 
 
 class MouseTracer:
+    FILL: str = "fill"
+    _FILL_LITERAL_TYPE = Literal["fill"]
+    _FLEX_DIM_TYPE = Union[float, _FILL_LITERAL_TYPE]
+
     def __init__(
         self,
         canvas: tk.Canvas,
         fill: str,
         mouse: Mouse = Mouse(),
         location: Tuple[float, float] = (0.0, 0.0),
-        width: Union[float, Literal["fill"]] = "fill",
-        height: Union[float, Literal["fill"]] = "fill",
+        width: _FLEX_DIM_TYPE = "fill",
+        height: _FLEX_DIM_TYPE = "fill",
     ) -> None:
         self.canvas = canvas
         self.mouse = mouse
@@ -29,8 +33,8 @@ class MouseTracer:
 
         # Calculate rectangle coordinates
         x0, y0 = location
-        x1 = self.canvas.winfo_reqwidth() if width == "fill" else x0 + width
-        y1 = self.canvas.winfo_reqheight() if height == "fill" else y0 + height
+        x1 = self._calculate_x1(x0, width)
+        y1 = self._calculate_y1(y0, height)
 
         self.canvas.create_rectangle(x0, y0, x1, y1, fill=fill)
 
@@ -38,14 +42,22 @@ class MouseTracer:
             self._on_mouse_left_button_down
         )
 
-    def _on_mouse_left_button_down(self, x: float, y: float):
+    def _calculate_x1(self, x0: float, width: _FLEX_DIM_TYPE) -> float:
+        return self.canvas.winfo_reqwidth() if width == "fill" else x0 + width
+
+    def _calculate_y1(self, y0: float, height: _FLEX_DIM_TYPE) -> float:
+        return (
+            self.canvas.winfo_reqheight() if height == "fill" else y0 + height
+        )
+
+    def _draw_arrow_to(self, target: Tuple[float, float]) -> None:
         if len(self.arrow_ids) == self.arrow_ids.maxlen:
             self.canvas.delete(self.arrow_ids.popleft())
         line_id = self.canvas.create_line(
             self.prev_mouse_click[0],
             self.prev_mouse_click[1],
-            x,
-            y,
+            target[0],
+            target[1],
             arrow=tk.LAST,
             width=TkinterStyle.Arrow.WIDTH,
             arrowshape=TkinterStyle.Arrow.ARROWSHAPE,
@@ -53,4 +65,7 @@ class MouseTracer:
         )
         self.cycle_colors.cycle()
         self.arrow_ids.append(line_id)
-        self.prev_mouse_click = (x, y)
+        self.prev_mouse_click = target
+
+    def _on_mouse_left_button_down(self, x: float, y: float) -> None:
+        self._draw_arrow_to((x, y))
