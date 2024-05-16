@@ -29,6 +29,13 @@
 			"type": "shell",
 			"problemMatcher": [],
 			"command": "python -m unittest"
+		},
+		{
+			"label": "Build .vsix",
+			"detail": "Build installable VS Code Extension file.",
+			"type": "shell",
+			"problemMatcher": [],
+			"command": "vsce package"
 		}
 	]
 }

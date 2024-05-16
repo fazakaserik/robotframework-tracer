@@ -1,19 +1,41 @@
 {
-  "name": "robot-framework-tracer",
+  "name": "robotframework-tracer",
   "publisher": "erik-fazakas",
   "author": {
     "name": "Erik Fazakas"
   },
   "displayName": "Robot Framework Tracer",
-  "icon": "resource/icon.png",
-  "description": "",
-  "version": "0.1.0",
+  "icon": "images/icon.png",
+  "pricing": "Free",
+  "description": "An experimental Robot Framework test development helper utility extension.",
+  "version": "0.2.0",
   "engines": {
     "vscode": "^1.88.0"
   },
   "categories": [
     "Testing",
-    "Helpers"
+    "Debuggers",
+    "Other"
+  ],
+  "keywords": [
+    "Test",
+    "Testing",
+    "RobotFramework",
+    "Robot Framework",
+    "Robot",
+    "Keyword Driven",
+    "Data Driven",
+    "Acceptance Testing",
+    "Acceptance Test Driven Development",
+    "Test Driven",
+    "Behavior Driven Development",
+    "BDD",
+    "Behavior Driven Testing",
+    "BDT",
+    "Robotic Process Automation",
+    "RPA",
+    "Tracer",
+    "Tracing"
   ],
   "activationEvents": [
     "workspaceContains:**/*.{robot,resource}"
@@ -28,12 +50,17 @@
     ],
     "configuration": [
       {
-        "title": "Display",
-        "type": "object",
+        "title": "Execution Trace",
+        "order": 0,
         "properties": {
-          "robotframeworkTracer.display.primaryLocation": {
+          "robotFrameworkTracer.executionTrace.enabled": {
+            "default": true,
+            "description": "Determines whether the execution should be traced.",
+            "type": "boolean"
+          },
+          "robotFrameworkTracer.executionTrace.location": {
             "default": "Top Left",
-            "description": "Primary location of where the display should appear.",
+            "description": "Location of where the display should appear.",
             "enum": [
               "Top Left",
               "Top Middle",
@@ -42,23 +69,22 @@
               "Bottom Middle",
               "Bottom Right"
             ]
-          },
-          "robotframeworkTracer.display.secondaryLocation": {
-            "default": "Bottom Left",
-            "description": "Secondary location of where the display should appear, when the display is hovered at the primary location.",
-            "enum": [
-              "Top Left",
-              "Top Middle",
-              "Top Right",
-              "Bottom Left",
-              "Bottom Middle",
-              "Bottom Right"
-            ]
-          },
-          "robotframeworkTracer.display.traceMouseMovement": {
+          }
+        }
+      },
+      {
+        "title": "Mouse Trace",
+        "order": 1,
+        "properties": {
+          "robotFrameworkTracer.mouseTrace.enabled": {
             "default": true,
             "description": "Determines whether the mouse movement should be traced.",
             "type": "boolean"
+          },
+          "robotFrameworkTracer.mouseTrace.maxMouseClicksRecorded": {
+            "default": 3,
+            "description": "How many traced mouse clicks should be kept to display.",
+            "type": "integer"
           }
         }
       }
@@ -89,5 +115,14 @@
   ],
   "dependencies": {
     "@vscode/python-extension": "^1.0.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fazakaserik/robotframework-tracer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fazakaserik/robotframework-tracer/issues",
+    "email": "the.fazakas.erik@gmail.com"
+  },
+  "homepage": "https://github.com/fazakaserik/robotframework-tracer/blob/master/README.md"
 }

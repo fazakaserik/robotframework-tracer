@@ -9,7 +9,7 @@
     // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
     "typescript.tsc.autoDetect": "off",
     "robotcode.robot.args": [
-        "--listener=c:\\Users\\thefa\\.vscode\\extensions\\erik.fazakas.robot-framework-tracer-0.1.0\\src\\Listener.py"
+        "--listener=c:\\Users\\thefa\\.vscode\\extensions\\erik-fazakas.robotframework-tracer-0.1.0\\src\\robotframework_tracer\\Listener.py"
     ],
     "[python]": {
         "editor.formatOnSave": true,
@@ -32,5 +32,8 @@
         "test_*.py"
     ],
     "python.testing.pytestEnabled": false,
-    "python.testing.unittestEnabled": true
+    "python.testing.unittestEnabled": true,
+    "robotFrameworkTracer.executionTrace.enabled": true,
+    "robotFrameworkTracer.mouseTrace.enabled": true,
+    "robotFrameworkTracer.mouseTrace.maxMouseClicksRecorded": 3
 }
