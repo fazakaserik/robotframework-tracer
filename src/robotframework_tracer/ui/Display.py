@@ -1,8 +1,9 @@
 import threading
 import tkinter as tk
 from ctypes import windll
+from turtle import back
 
-from robotframework_tracer.Configurations import Configurations
+from robotframework_tracer.config.Configurations import Configurations
 from robotframework_tracer.style.tkinter import TkinterStyle
 from robotframework_tracer.ui.DisplayServiceManager import DisplayServiceManager
 from robotframework_tracer.ui.ExecutionTracer import ExecutionTracer
@@ -23,7 +24,7 @@ class Display:
         self._root.wm_attributes(
             "-transparentcolor", TkinterStyle.Colors.TRANSPARENT_COLOR
         )
-        self.make_fullscreen()
+        self.make_fullscreen(is_visible_on_tray=True)
 
         # Get dimensions
         self._screen_width = self._root.winfo_screenwidth()
@@ -31,15 +32,21 @@ class Display:
 
         # Create a canvas for drawing lines
         self._canvas = tk.Canvas(
-            self._root, width=self._screen_width, height=self._screen_height
+            self._root,
+            width=self._screen_width,
+            height=self._screen_height,
+            bg="yellow",
         )
+        self._canvas.pack(fill=tk.BOTH, expand=True)
+
+        # Add tracers
         self._execution_tracer = ExecutionTracer(
-            canvas=self._canvas, fill=TkinterStyle.Colors.TRANSPARENT_COLOR
+            canvas=self._canvas,
+            config=self._configurations.execution_trace_config,
         )
         self._mouse_tracer = MouseTracer(
             canvas=self._canvas, fill=TkinterStyle.Colors.TRANSPARENT_COLOR
         )
-        self._canvas.pack(fill=tk.BOTH, expand=True)
 
         # Wait to configure the window for click-through until it's fully loaded
         self._root.after(
