@@ -7,8 +7,8 @@
   "displayName": "Robot Framework Tracer",
   "icon": "images/icon.png",
   "pricing": "Free",
-  "description": "An experimental Robot Framework test development helper utility extension.",
-  "version": "0.2.0",
+  "description": "Test development helper utility extension.",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.88.0"
   },
