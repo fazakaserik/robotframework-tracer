@@ -35,7 +35,7 @@ class Display:
             self._root,
             width=self._screen_width,
             height=self._screen_height,
-            bg="yellow",
+            bg=TkinterStyle.Colors.TRANSPARENT_COLOR,
         )
         self._canvas.pack(fill=tk.BOTH, expand=True)
 
@@ -55,8 +55,7 @@ class Display:
             10, lambda: self.make_click_through(self._root.winfo_id())
         )
 
-    def start(self):
-        # self._execution_tracer.start()
+        # Run TKinter main loop
         self._root.mainloop()
 
     def make_click_through(self, hwnd):
@@ -74,5 +73,4 @@ class Display:
 
 # Gets called by Listener.py
 if __name__ == "__main__":
-    display = Display()
-    display.start()
+    Display()

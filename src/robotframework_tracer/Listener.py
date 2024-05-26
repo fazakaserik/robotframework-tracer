@@ -9,6 +9,7 @@ from concurrent.futures import thread
 import grpc
 from robot.running.model import Keyword
 
+from robotframework_tracer.config.Configurations import Configurations
 from robotframework_tracer.ui.generated.display_pb2 import DisplayTextRequest
 from robotframework_tracer.ui.generated.display_pb2_grpc import (
     DisplayServiceStub,
@@ -25,6 +26,7 @@ class Listener:
         self._SEPARATOR: str = " " * self._NUM_SPACES
 
         self.process = None
+        self.config = Configurations()
 
         try:
             self.ui_thread = threading.Thread(target=self.start_ui, daemon=True)
@@ -42,6 +44,8 @@ class Listener:
         )
 
     def _display(self, text: str):
+        if not self.config.execution_trace_config.enabled:
+            return
         self.stub.DisplayText(DisplayTextRequest(text=text))
 
     def start_keyword(self, data: Keyword, result):

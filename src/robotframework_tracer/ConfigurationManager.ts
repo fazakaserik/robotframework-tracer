@@ -3,8 +3,71 @@ import * as path from "path";
 import * as fs from "fs";
 import * as os from "os";
 
+function getResolvedConfig(section: string): { [key: string]: any } {
+  const config = vscode.workspace.getConfiguration(section);
+  const configKeys = Object.keys(config).filter((key) => {
+    // Filter out methods and only keep configuration properties
+    return typeof config[key] !== "function";
+  });
+
+  const resolvedConfig: { [key: string]: any } = {};
+
+  configKeys.forEach((key) => {
+    const inspected = config.inspect(key);
+    if (inspected) {
+      resolvedConfig[key] = resolveConfigValue(inspected);
+    }
+  });
+
+  return resolvedConfig;
+}
+
+function resolveConfigValue(inspected: any): any {
+  if (
+    typeof inspected.defaultValue === "object" &&
+    !Array.isArray(inspected.defaultValue)
+  ) {
+    // Handle nested configuration objects
+    const resolvedNestedConfig: { [key: string]: any } = {};
+    const nestedKeys = Object.keys(inspected.defaultValue);
+
+    nestedKeys.forEach((nestedKey) => {
+      const nestedInspected = {
+        defaultValue: inspected.defaultValue[nestedKey],
+        globalValue: inspected.globalValue
+          ? inspected.globalValue[nestedKey]
+          : undefined,
+        workspaceValue: inspected.workspaceValue
+          ? inspected.workspaceValue[nestedKey]
+          : undefined,
+      };
+
+      resolvedNestedConfig[nestedKey] = resolveConfigValue(
+        nestedInspected as any
+      );
+    });
+
+    return resolvedNestedConfig;
+  } else {
+    // Handle simple values
+    if (inspected.workspaceValue !== undefined) {
+      return inspected.workspaceValue;
+    } else if (inspected.globalValue !== undefined) {
+      return inspected.globalValue;
+    } else {
+      return inspected.defaultValue;
+    }
+  }
+}
+
 export function activate(context: vscode.ExtensionContext) {
   const config = vscode.workspace.getConfiguration("robotFrameworkTracer");
+  const configKeys = Object.keys(config).filter((key) => {
+    // Filter out methods and only keep configuration properties
+    return typeof config[key] !== "function";
+  });
+
+  const resolvedConfig = getResolvedConfig("robotFrameworkTracer");
 
   const settings = {
     executionTrace: {

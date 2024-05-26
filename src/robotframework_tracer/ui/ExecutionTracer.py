@@ -46,15 +46,23 @@ class ExecutionTracer:
         if config.location == Location.TOP_LEFT:
             frame_anchor = tk.W
             frame_side = tk.TOP
+        elif config.location == Location.TOP_MIDDLE:
+            frame_anchor = tk.N
+            frame_side = tk.TOP
         elif config.location == Location.TOP_RIGHT:
             frame_anchor = tk.E
             frame_side = tk.TOP
         elif config.location == Location.BOTTOM_LEFT:
             frame_anchor = tk.W
             frame_side = tk.BOTTOM
+        elif config.location == Location.BOTTOM_MIDDLE:
+            frame_anchor = tk.N
+            frame_side = tk.BOTTOM
         elif config.location == Location.BOTTOM_RIGHT:
             frame_anchor = tk.E
             frame_side = tk.BOTTOM
+        assert frame_anchor is not None, f"{config.location} is not implemented"  # type: ignore
+        assert frame_side is not None, f"{config.location} is not implemented"  # type: ignore
         self._frame.pack(anchor=frame_anchor, side=frame_side, padx=frame_margin, pady=frame_margin)  # type: ignore
 
         # Add label to display executed keyword
@@ -68,7 +76,6 @@ class ExecutionTracer:
             font=ExecutionTracerStyle.FONT,
             fg=ExecutionTracerStyle.Colors.TEXT_COLOR,
             background=ExecutionTracerStyle.Colors.BG_COLOR,
-            justify=tk.RIGHT,
             padx=label_padding,
             pady=label_padding,
         )
@@ -80,6 +87,7 @@ class ExecutionTracer:
             target=display_service_manager.start_display_service,
             daemon=True,
         )
+
         self.display_service.start()
 
     def update_display(self, text: str):

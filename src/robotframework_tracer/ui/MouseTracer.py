@@ -37,7 +37,7 @@ class MouseTracer:
         self.canvas = canvas
         self.config = config
         self.mouse = mouse
-        self.arrow_ids: deque = deque(maxlen=3)
+        self.arrow_ids: deque = deque(maxlen=config.max_mouse_clicks_recorded)
         self.prev_mouse_click: Tuple[float, float] = (0.0, 0.0)
         self.canvas.pack()
         self.cycle_colors = CycleColors()
