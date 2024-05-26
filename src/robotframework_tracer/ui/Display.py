@@ -2,6 +2,7 @@ import threading
 import tkinter as tk
 from ctypes import windll
 
+from robotframework_tracer.Configurations import Configurations
 from robotframework_tracer.style.tkinter import TkinterStyle
 from robotframework_tracer.ui.DisplayServiceManager import DisplayServiceManager
 from robotframework_tracer.ui.MouseTracer import MouseTracer
@@ -10,6 +11,9 @@ from robotframework_tracer.ui.MouseTracer import MouseTracer
 class Display:
 
     def __init__(self):
+        # VS Code configurations
+        self._configurations = Configurations()
+
         # Initialize Tkinter
         self._root = tk.Tk()
         self._root.title("Robot Framework Listener")
@@ -35,7 +39,6 @@ class Display:
         )
         self._keyword_label.place(x=0, y=0)
         self._keyword_label.pack(anchor="w")
-        self._keyword_label.bind("<Enter>", self.on_mouse_enter)
 
         # Create a canvas for drawing lines
         self._canvas = tk.Canvas(
@@ -73,39 +76,12 @@ class Display:
         style |= 0x80000 | 0x20
         windll.user32.SetWindowLongPtrW(hwnd, -20, style)
 
-    def draw_line(self, event):
-        x, y = event.x, event.y
-        if self._previous_x is not None and self._previous_y is not None:
-            # Draw a line from the previous point to the current point
-            line = self._canvas.create_line(
-                self._previous_x, self._previous_y, x, y, fill=self._line_color
-            )
-            # Schedule the line to disappear
-            self._canvas.after(self._line_lifetime, self._canvas.delete, line)
-        # Update the current point
-        self._previous_x, self._previous_y = x, y
-
     def update_display(self, text: str):
         self._root.after(0, self._display, text)
 
     def _display(self, text: str):
         self._display_value.set(text)
         self._root.update()
-
-    def on_mouse_enter(self, event):
-        pos = self._root.geometry().split("+")
-        x, y = int(pos[1]), int(pos[2])
-
-        screen_width = self._root.winfo_screenwidth()
-        screen_height = self._root.winfo_screenheight()
-
-        if x == 0 and y == 0:
-            # Move from top-left to bottom of the screen
-            new_y = screen_height - self._root.winfo_height()
-            self._root.geometry(f"+0+{new_y}")
-        else:
-            # Move from bottom back to top-left
-            self._root.geometry("+0+0")
 
 
 # Gets called by Listener.py
