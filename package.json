@@ -46,6 +46,10 @@
       {
         "command": "robot-framework-tracer.updateListener",
         "title": "Robot Framework Tracer: Update robot listener"
+      },
+      {
+        "command": "robot-framework-tracer.updateConfigs",
+        "title": "Robot Framework Tracer: Update configs"
       }
     ],
     "configuration": [

@@ -60,7 +60,7 @@ function resolveConfigValue(inspected: any): any {
   }
 }
 
-export function activate(context: vscode.ExtensionContext) {
+function exportConfig(context: vscode.ExtensionContext) {
   const config = vscode.workspace.getConfiguration("robotFrameworkTracer");
   const configKeys = Object.keys(config).filter((key) => {
     // Filter out methods and only keep configuration properties
@@ -96,6 +96,22 @@ export function activate(context: vscode.ExtensionContext) {
     }
     console.log("Settings exported to " + filePath);
   });
+}
+
+export function activate(context: vscode.ExtensionContext) {
+  let disposable = vscode.commands.registerCommand(
+    "robot-framework-tracer.updateConfigs",
+    () => {
+      exportConfig(context);
+      vscode.window.showInformationMessage(
+        "Robot Framework Tracer configurations have been updated."
+      );
+    }
+  );
+
+  context.subscriptions.push(disposable);
+
+  exportConfig(context);
 }
 
 export function deactivate() {}
