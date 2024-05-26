@@ -39,13 +39,15 @@ class Display:
         )
         self._canvas.pack(fill=tk.BOTH, expand=True)
 
-        # Add tracers
+        # Add tracers if they are enabled
         self._execution_tracer = ExecutionTracer(
             canvas=self._canvas,
             config=self._configurations.execution_trace_config,
         )
         self._mouse_tracer = MouseTracer(
-            canvas=self._canvas, fill=TkinterStyle.Colors.TRANSPARENT_COLOR
+            canvas=self._canvas,
+            fill=TkinterStyle.Colors.TRANSPARENT_COLOR,
+            config=self._configurations.mouse_trace_config,
         )
 
         # Wait to configure the window for click-through until it's fully loaded

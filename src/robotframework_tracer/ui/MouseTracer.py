@@ -5,6 +5,9 @@ from ctypes import POINTER, byref, wintypes
 from threading import Thread
 from typing import Literal, Tuple, Union
 
+from robotframework_tracer.config.MouseTraceConfigurations import (
+    MouseTraceConfigurations,
+)
 from robotframework_tracer.style.CycleColors import CycleColors
 from robotframework_tracer.style.tkinter import TkinterStyle
 from robotframework_tracer.win_api.mouse import Mouse
@@ -19,12 +22,20 @@ class MouseTracer:
         self,
         canvas: tk.Canvas,
         fill: str,
+        config: MouseTraceConfigurations,
+        *,
         mouse: Mouse = Mouse(),
         location: Tuple[float, float] = (0.0, 0.0),
         width: _FLEX_DIM_TYPE = "fill",
         height: _FLEX_DIM_TYPE = "fill",
     ) -> None:
+
+        # Only continue if this feature is enabled
+        if not config.enabled:
+            return
+
         self.canvas = canvas
+        self.config = config
         self.mouse = mouse
         self.arrow_ids: deque = deque(maxlen=3)
         self.prev_mouse_click: Tuple[float, float] = (0.0, 0.0)
